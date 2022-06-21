@@ -60,3 +60,39 @@ def mpl_window(fig):
     window.close()
 
 mpl_window(fig)
+
+
+
+sg.theme("LightBlue")
+#define layout
+layout=[
+        [sg.Text("Enter start value",font='Lucida'),
+         sg.Input(key='stVal',size=(3, 1)),
+         sg.Text("Enter end value", font='Lucida'),
+         sg.Input(key='enVal',size=(3, 1))],
+        [sg.Text("Color map", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='stSlider', range=(1,100))],
+        [sg.Text("Variation ", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='endSlider',range=(1,100))],
+        [sg.Submit(key='btnSubmit'), sg.Cancel()]
+        ]
+
+
+
+#Define Window
+window =sg.Window("Color Chooser",layout)
+#Read  values entered by user
+event,values=window.read()
+
+window['stVal'].update(int(values['stSlider']))
+window['enVal'].update(int(values['endSlider']))
+event,values=window.read()
+i=int(values['stVal'])
+k=int(values['enVal'])
+window['btnSubmit'].set_focus()
+val=0
+
+for i in range(k):
+    event, values = window.read(timeout=100)
+    # update progress bar value
+    val=val+100/(k-i)    
+
+window.close()
