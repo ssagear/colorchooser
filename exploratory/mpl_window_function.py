@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/env pytho
+from jinja2 import ModuleLoader
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -43,17 +44,19 @@ def draw_figure(canvas, figure):
 
 # ------------------------------- Beginning of GUI CODE -------------------------------
 
-# define the window layout
-layout = [[sg.Text('Plot 1')],
-          [sg.Canvas(key='-CANVAS-')],
-          [sg.Button('Ok')]]
 
-# create the form and show it without the plot
-window = sg.Window('Demo Application - Embedding Matplotlib In PySimpleGUI', layout, finalize=True, element_justification='center', font='Helvetica 18')
+def mpl_window(fig):
 
-# add the plot to the window
-fig_canvas_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+    layout = [[sg.Canvas(key='-CANVAS-')],
+            [sg.Button('Slider Goes Here')]]
 
-event, values = window.read()
+    # create the form and show it without the plot
+    window = sg.Window('Matplotlib Popup Window', layout, finalize=True, element_justification='center', font='Helvetica 18')
 
-window.close()
+    # add the plot to the window
+    fig_canvas_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+
+    event, values = window.read()
+    window.close()
+
+mpl_window(fig)
