@@ -45,8 +45,6 @@ def draw_figure(canvas, figure):
 # ------------------------------- Beginning of GUI CODE -------------------------------
 
 
-
-
 def mpl_window(fig):
     sg.theme("LightBlue")
 
@@ -70,35 +68,9 @@ def mpl_window(fig):
 fontsz = mpl_window(fig)
 
 
-
-
-# layout=[
-#         [sg.Text("Font Size", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='font', range=(1,100))],
-#         [sg.Submit(key='btnSubmit'), sg.Cancel()]
-#         ]
-
-
-
-#Define Window
-# window =sg.Window("Fontsize Chooser",layout)
-# #Read  values entered by user
-# event,values=window.read()
-
-# fontsz = int(values['font'])
-
-# window.close()
-
 plt.rcParams['font.size'] = fontsz
 fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
 t = np.arange(0, 3, .01)
 fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
 
 mpl_window(fig)
-
-
-# for i in range(k):
-#     event, values = window.read(timeout=100)
-#     # update progress bar value
-#     val=val+100/(k-i)    
-
-
