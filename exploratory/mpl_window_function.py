@@ -46,6 +46,8 @@ def draw_figure(canvas, figure):
 
 
 def mpl_window(fig):
+    """This function plot a matplotlib figure object in a new window with a slider to choose the fontsize. 
+    It returns the slider output."""
     sg.theme("LightBlue")
 
     layout =[[sg.Canvas(key='-CANVAS-')],
@@ -68,6 +70,7 @@ def mpl_window(fig):
 fontsz = mpl_window(fig)
 
 
+"""This part of the code creates a new plot window with the specified fontsize."""
 plt.rcParams['font.size'] = fontsz
 fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
 t = np.arange(0, 3, .01)
