@@ -45,10 +45,15 @@ def draw_figure(canvas, figure):
 # ------------------------------- Beginning of GUI CODE -------------------------------
 
 
-def mpl_window(fig):
 
-    layout = [[sg.Canvas(key='-CANVAS-')],
-            [sg.Button('Slider Goes Here')]]
+
+def mpl_window(fig):
+    sg.theme("LightBlue")
+
+    layout =[[sg.Canvas(key='-CANVAS-')],
+            [sg.Text("Font Size", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='font', range=(1,100))],
+            [sg.Submit(key='btnSubmit'), sg.Cancel()]
+            ]
 
     # create the form and show it without the plot
     window = sg.Window('Matplotlib Popup Window', layout, finalize=True, element_justification='center', font='Helvetica 18')
@@ -57,32 +62,38 @@ def mpl_window(fig):
     fig_canvas_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)
 
     event, values = window.read()
+    fontsz = int(values['font'])
     window.close()
 
-mpl_window(fig)
+    return fontsz
+
+fontsz = mpl_window(fig)
 
 
 
-sg.theme("LightBlue")
-#define layout
-layout=[
-        [sg.Text("Color map", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='font', range=(1,100))],
-        [sg.Submit(key='btnSubmit'), sg.Cancel()]
-        ]
+
+# layout=[
+#         [sg.Text("Font Size", font ='Lucinda'), sg.Slider(orientation ='horizontal', key='font', range=(1,100))],
+#         [sg.Submit(key='btnSubmit'), sg.Cancel()]
+#         ]
 
 
 
 #Define Window
-window =sg.Window("Color Chooser",layout)
-#Read  values entered by user
-event,values=window.read()
+# window =sg.Window("Fontsize Chooser",layout)
+# #Read  values entered by user
+# event,values=window.read()
 
-fontsz = int(values['font'])
+# fontsz = int(values['font'])
 
+# window.close()
 
+plt.rcParams['font.size'] = fontsz
 fig = matplotlib.figure.Figure(figsize=(5, 4), dpi=100)
 t = np.arange(0, 3, .01)
 fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
+
+mpl_window(fig)
 
 
 # for i in range(k):
@@ -90,4 +101,4 @@ fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
 #     # update progress bar value
 #     val=val+100/(k-i)    
 
-window.close()
+
