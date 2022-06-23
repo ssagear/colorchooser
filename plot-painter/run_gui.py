@@ -1,14 +1,14 @@
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from colorchooser import extracted_figure_class as efc
+from plot-painter import extracted_figure_class as efc
 import PySimpleGUI as sg
 
 def run_GUI(fig):
     """Runs GUI
-    
+
     Parameters
     __________
     extfig: ExtractedFigureObject
@@ -54,7 +54,7 @@ def run_GUI(fig):
         line_index = int(line_index_float)
 
         print(event, values)
-        
+
 
         if event in (sg.WIN_CLOSED, 'Exit'):  # always,  always give a way out!
             break
@@ -97,9 +97,3 @@ def draw_figure_w_toolbar(canvas, fig, canvas_toolbar):
     toolbar = Toolbar(figure_canvas_agg, canvas_toolbar)
     toolbar.update()
     figure_canvas_agg.get_tk_widget().pack(side='right', fill='both', expand=1)
-
-
-
-
-
-
