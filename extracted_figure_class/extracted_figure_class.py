@@ -8,10 +8,11 @@ class ExtractedFigure(object):
         """
         Initialize the ExtractedFigure object
         
-        Parameters:
-        -------------
-        fig: matplotlib.figure.Figure
-            The Figure that will have its Artists modified
+        Args:
+            fig (matplotlib.figure.Figure): The Figure that will have its Artists modified
+
+        Returns:
+            None
         """
         self.extracted_figure = fig
         
@@ -21,6 +22,12 @@ class ExtractedFigure(object):
         
         (Note: the datatype of the AxesSubplot will be 
          matplotlib.axes._subplots.AxesSubplot)
+
+        Args:
+            None
+
+        Returns:
+            None
         """
         
         figure_subplots = []
@@ -45,6 +52,12 @@ class ExtractedFigure(object):
         """
         For all AxesSubplots in the Figure, retrieve the plotted artists, 
         their labels, and current colors.
+
+        Args:
+            None
+
+        Returns:
+            None
         """
         
         plotted_artists = []
