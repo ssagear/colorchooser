@@ -2,7 +2,11 @@ import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt 
 
-def run_GUI(extfig):
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+from colorchooser import extracted_figure_class as efc
+import PySimpleGUI as sg
+
+def run_GUI(fig):
     """Runs GUI
     
     Parameters
@@ -13,6 +17,8 @@ def run_GUI(extfig):
     _______
     None
     """
+
+    extractedfig = efc.ExtractedFigure(fig=fig)
 
     line_type = ['solid', 'dotted', 'dashed', 'dashdot']
 
@@ -55,41 +61,38 @@ def run_GUI(extfig):
 
         elif event is 'Plot':
             # ------------------------------- PASTE YOUR MATPLOTLIB CODE HERE
-            plt.figure(1)
-            fig = plt.gcf()
-            DPI = fig.get_dpi()
+            #plt.figure(1)
+            #fig = plt.gcf()
+            DPI = extractedfig.extracted_figure.get_dpi()
             # ------------------------------- you have to play with this size to reduce the movement error when the mouse hovers over the figure, it's close to canvas size
-            fig.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
+            extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
+            extractedfig.extracted_artist_list[0][0].set_color(hex_code)
             # -------------------------------
-            x = np.linspace(0, 2 * np.pi)
-            y = np.sin(x)
-            plt.clf()
-            plt.plot(x, y, color=hex_code, linestyle=line_type[line_index])
-            plt.title('y=sin(x)')
-            plt.xlabel('X')
-            plt.ylabel('Y')
-            plt.grid()
+            #x = np.linspace(0, 2 * np.pi)
+            #y = np.sin(x)
+            #plt.clf()
+            #plt.plot(x, y, color=hex_code, linestyle=line_type[line_index])
 
             # ------------------------------- Instead of plt.show()
-            draw_figure_w_toolbar(window['fig_cv'].TKCanvas, fig, window['controls_cv'].TKCanvas)
+            draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
 
     window.close()
 
 
 
 class Toolbar(NavigationToolbar2Tk):
-    def __init__(self, *args, **kwargs):
-        super(Toolbar, self).__init__(*args, **kwargs)
+   def __init__(self, *args, **kwargs):
+       super(Toolbar, self).__init__(*args, **kwargs)
 
 
-def draw_figure_w_toolbar(canvas, extfig, canvas_toolbar):
+def draw_figure_w_toolbar(canvas, fig, canvas_toolbar):
     if canvas.children:
         for child in canvas.winfo_children():
             child.destroy()
     if canvas_toolbar.children:
         for child in canvas_toolbar.winfo_children():
             child.destroy()
-    figure_canvas_agg = FigureCanvasTkAgg(extfig.extracted_figure, master=canvas)
+    figure_canvas_agg = FigureCanvasTkAgg(fig, master=canvas)
     figure_canvas_agg.draw()
     toolbar = Toolbar(figure_canvas_agg, canvas_toolbar)
     toolbar.update()
