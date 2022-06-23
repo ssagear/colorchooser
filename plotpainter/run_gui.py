@@ -19,7 +19,18 @@ def run_GUI(fig):
     """
 
     extractedfig = efc.ExtractedFigure(fig=fig)
+    
+    subplots = []
+    artists = []
 
+    for i in range(len(extractedfig.extracted_artist_list)):
+        subplots.append('Subplot ' + str(i))
+        for j in range(len(extractedfig.extracted_artist_list[i])):
+            artists.append('Artist ' + str(j))
+
+    subplots = np.array(subplots)
+    artists= np.array(artists)
+    
     line_type = ['solid', 'dotted', 'dashed', 'dashdot']
 
     layout = [
@@ -40,6 +51,7 @@ def run_GUI(fig):
     )],
     [sg.In(key='color')],
     [sg.ColorChooserButton(button_text='Choose Color', target='color')],
+    [sg.Listbox(values=[subplots], select_mode='extended', key='fac', size=(30, 6))],
     [sg.T('Choose line:  '), sg.Slider(orientation ='horizontal', key='lineSlider', range=(0,3))]
 ]
 
