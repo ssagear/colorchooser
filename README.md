@@ -1,2 +1,3 @@
 # colorchooser
-Code/Astro 2022. Matplotlib GUI color chooser.
+
+GUI to change the color of your Matplotlib plots.
