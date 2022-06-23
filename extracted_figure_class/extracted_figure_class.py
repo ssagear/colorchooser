@@ -2,6 +2,13 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import pdb
+from matplotlib.collections import (
+    Collection, CircleCollection, LineCollection, PathCollection,
+    PolyCollection, RegularPolyCollection)
+from matplotlib.lines import Line2D
+from matplotlib.container import ErrorbarContainer, BarContainer, StemContainer
+from matplotlib.patches import (Patch, Rectangle, Shadow, FancyBboxPatch,
+                                StepPatch)
 
 # Given a figure, return the subplots and their children
 
