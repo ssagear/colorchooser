@@ -1,3 +1,9 @@
+import matplotlib.pyplot as plt
+import matplotlib
+import numpy as np
+import pdb
+
+
 class ExtractedFigure(object):
     """
     Extract the plotted Artists in the AxesSubplots of a Figure and
