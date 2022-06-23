@@ -2,7 +2,75 @@ import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
 import pdb
+from matplotlib.collections import (
+    Collection, CircleCollection, LineCollection, PathCollection,
+    PolyCollection, RegularPolyCollection)
+from matplotlib.lines import Line2D
+from matplotlib.container import ErrorbarContainer, BarContainer, StemContainer
+from matplotlib.patches import (Patch, Rectangle, Shadow, FancyBboxPatch,
+                                StepPatch)
 
+# Given a figure, return the subplots and their children
+
+class ExtractedArtist(object):
+    """
+    Extracted matplotlib artist or container of artists.
+    """
+    
+    def __init__(self, artist, axessubplot, color, label):
+        
+        self.artist = artist
+        self.subplot = axessubplot
+        self.color = color
+        self.label = label
+        
+    def set_color(self, newcolor):
+        
+        # Set color for Line2D
+        if isinstance(self.artist, Line2D):
+            self.artist.set_color(newcolor)
+            self.color = newcolor
+
+        # Set facecolor and edgecolor for Patch
+        elif isinstance(self.artist, Patch):
+            self.artist.set_facecolor(newcolor)
+            self.artist.set_edgecolor(newcolor)
+            self.color = newcolor
+
+        # Set facecolor and edgecolor for Collection
+        elif isinstance(self.artist, Collection):
+            self.artist.set_facecolor(newcolor)
+            self.artist.set_edgecolor(newcolor)
+            self.color = newcolor
+
+        # Set facecolor and edgecolor for BarContainer
+        # Note: All Rectangles in BarContainer are assumed to have the same
+        # facecolor and edgecolor.
+        elif isinstance(self.artist, BarContainer):
+            children = self.artist.get_children()
+            
+            for child in children:
+                child.set_facecolor(newcolor)
+                child.set_edgecolor(newcolor)
+                
+            self.color = newcolor
+
+        # Retrieve color for ErrorbarContainer
+        # Note: The marker and errorbars in ErrorbarContainer are 
+        # assumed to have the same color.
+        elif isinstance(self.artist, ErrorbarContainer):
+            children = self.artist.get_children()
+            
+            for child in children:
+                child.set_color(newcolor)
+                child.set_color(newcolor)
+                
+            self.color = newcolor
+
+        else:
+            print('Plotted artist class not supported.')
+        
+        
 
 class ExtractedFigure(object):
     """
@@ -14,13 +82,27 @@ class ExtractedFigure(object):
         """
         Initialize the ExtractedFigure object
         
-        Args:
-            fig (matplotlib.figure.Figure): The Figure that will have its Artists modified
-
-        Returns:
-            None
+        Parameters:
+        -------------
+        fig: matplotlib.figure.Figure
+            The Figure that will have its Artists modified
         """
         self.extracted_figure = fig
+        
+        # Retrieve the figure AxesSubplots
+        self.retrieve_figure_subplots()
+        
+        # Retrieve the artists or artist containers plotted in each
+        # subplot
+        self.retrieve_axes_artists()
+        
+        # Retrieve the artist colors (all artists assumed to be the same
+        # color)
+        self.retrieve_colors_from_artists()
+        
+        # Create the array of Extracted Artists
+        self.create_extracted_artist_list()
+        
         
     def retrieve_figure_subplots(self):
         """
@@ -28,12 +110,6 @@ class ExtractedFigure(object):
         
         (Note: the datatype of the AxesSubplot will be 
          matplotlib.axes._subplots.AxesSubplot)
-
-        Args:
-            None
-
-        Returns:
-            None
         """
         
         figure_subplots = []
@@ -58,12 +134,6 @@ class ExtractedFigure(object):
         """
         For all AxesSubplots in the Figure, retrieve the plotted artists, 
         their labels, and current colors.
-
-        Args:
-            None
-
-        Returns:
-            None
         """
         
         plotted_artists = []
@@ -112,4 +182,100 @@ class ExtractedFigure(object):
             plotted_artists_labels.append(np.array(curr_plotted_artists_labels))
             
         self.plotted_artists_labels = plotted_artists_labels
+        
+
+    def retrieve_colors_from_artists(self):
+        """
+        Retieve the color, or facecolor and edgecolor, for an artist or
+        container of artists.
+        
+        """
+        
+        plotted_artists_colors = []
+        
+        for ax_ind in np.arange(len(self.axes_array)):
+            plotted_artists_colors_curr = []
+            for ind in np.arange(len(self.plotted_artists[ax_ind])):
+                
+                # Current artist in list
+                artist = self.plotted_artists[ax_ind][ind]
+                
+                # Retrieve color from Line2Ds
+                if isinstance(artist, Line2D):
+                    linecolor = artist.get_color()
+                    plotted_artists_colors_curr.append([linecolor])
+                    
+                # Retrieve facecolor from Patches
+                elif isinstance(artist, Patch):
+                    facecolor = artist.get_facecolor()
+                    #edgecolor = artist.get_edgecolor()
+                    #artist_colors = [facecolor, edgecolor]
+                    #plotted_artists_colors_curr.append(artist_colors)
+                    
+                    plotted_artists_colors_curr.append([facecolor])
+                    
+                # Retrieve facecolor from Collections
+                elif isinstance(artist, Collection):
+                    facecolor = artist.get_facecolor()
+                    #edgecolor = artist.get_edgecolor()
+                    #artist_colors = [facecolor, edgecolor]
+                    #plotted_artists_colors_curr.append(artist_colors)
+                    plotted_artists_colors_curr.append([facecolor])
+                
+                # Retrieve facecolor and edgecolor from BarContainer
+                # Note: All Rectangles in BarContainer are assumed to have the same
+                # facecolor and edgecolor.
+                elif isinstance(artist, BarContainer):
+                    facecolor = artist.get_children()[0].get_facecolor()
+                    #edgecolor = artist.get_children()[0].get_edgecolor()
+                    #artist_colors = [facecolor, edgecolor]
+                    #plotted_artists_colors_curr.append(artist_colors)
+                    plotted_artists_colors_curr.append([facecolor])
+                    
+                # Retrieve color from ErrorbarContainer
+                # Note: The marker and errorbars in ErrorbarContainer are 
+                # assumed to have the same color.
+                elif isinstance(artist, ErrorbarContainer):
+                    color = artist.get_children()[0].get_color()
+                    plotted_artists_colors_curr.append([color])
+                    
+                else:
+                    print('Plotted artist class not supported.')
+                    
+            plotted_artists_colors.append(plotted_artists_colors_curr)
+            
+        self.plotted_artists_colors = plotted_artists_colors
+        
+    def create_extracted_artist_list(self):
+        
+        extracted_artist_list = []
+        
+        for ax_ind in np.arange(len(self.axes_array)):
+            artist_list = self.plotted_artists[ax_ind]
+            extracted_artist_list_curr = []
+            
+            for art_ind in np.arange(len(artist_list)):
+                
+                # Create the ExtractedArtist object
+                extracted_artist = ExtractedArtist(artist = artist_list[art_ind],
+                                                   axessubplot = self.axes_array[ax_ind],
+                                                   color = self.plotted_artists_colors[ax_ind][art_ind],
+                                                   label = self.plotted_artists_labels[ax_ind][art_ind])
+                
+                # Add to list
+                extracted_artist_list_curr.append(extracted_artist)
+                
+            extracted_artist_list.append(extracted_artist_list_curr)
+            
+        self.extracted_artist_list = extracted_artist_list
+        
+        
+        
+        
+        
+            
+        
+            
+        
+        
         
