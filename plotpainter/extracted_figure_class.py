@@ -186,7 +186,7 @@ class ExtractedFigure(object):
 
     def retrieve_colors_from_artists(self):
         """
-        Retieve the color, or facecolor and edgecolor, for an artist or
+        Retrieve the color, or facecolor and edgecolor, for an artist or
         container of artists.
         
         """
