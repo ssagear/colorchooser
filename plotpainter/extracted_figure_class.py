@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-import pdb
+#import pdb
 from matplotlib.collections import (
     Collection, CircleCollection, LineCollection, PathCollection,
     PolyCollection, RegularPolyCollection)
@@ -233,7 +233,7 @@ class ExtractedFigure(object):
 
     def retrieve_colors_from_artists(self):
         """
-        Retieve the color, or facecolor and edgecolor, for an artist or
+        Retrieve the color, or facecolor and edgecolor, for an artist or
         container of artists.
         
         """
