@@ -1,3 +1,4 @@
+from re import sub
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
@@ -21,15 +22,22 @@ def run_GUI(fig):
     extractedfig = efc.ExtractedFigure(fig=fig)
     
     subplots = []
+    subplots_ints = []
     artists = []
+    artists_ints = []
 
     for i in range(len(extractedfig.extracted_artist_list)):
         subplots.append('Subplot ' + str(i))
+        subplots_ints.append(i)
         for j in range(len(extractedfig.extracted_artist_list[i])):
             artists.append('Artist ' + str(j))
+            artists_ints.append(j)
 
     subplots = np.array(subplots)
     artists= np.array(artists)
+
+    print(subplots)
+
     
     line_type = ['solid', 'dotted', 'dashed', 'dashdot']
 
@@ -51,15 +59,20 @@ def run_GUI(fig):
     )],
     [sg.In(key='color')],
     [sg.ColorChooserButton(button_text='Choose Color', target='color')],
-    [sg.Listbox(values=[subplots], select_mode='extended', key='fac', size=(30, 6))],
+    [sg.Listbox(values=list(subplots), select_mode='extended', key='subplt', size=(30, 6))],
+    [sg.Listbox(values=list(artists), select_mode='extended', key='artst', size=(30, 6))],
     [sg.T('Choose line:  '), sg.Slider(orientation ='horizontal', key='lineSlider', range=(0,3))]
 ]
 
-    window = sg.Window('Graph with controls', layout)
+    window = sg.Window('Graph with controls', layout, finalize=True)
+    draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
 
     while True:
         event, values = window.read()
 
+        print(values['subplt'][-1][-1])
+        splot = int(values['subplt'][-1][-1])
+        art = int(values['artst'][-1][-1])
         hex_code = values['color']
 
         line_index_float = values['lineSlider']
@@ -68,17 +81,18 @@ def run_GUI(fig):
         print(event, values)
 
 
-        if event in (sg.WIN_CLOSED, 'Exit'):  # always,  always give a way out!
+        if event in (sg.WIN_CLOSED, 'Exit'): 
             break
 
         elif event is 'Plot':
             # ------------------------------- PASTE YOUR MATPLOTLIB CODE HERE
             #plt.figure(1)
             #fig = plt.gcf()
+            print(splot, art)
             DPI = extractedfig.extracted_figure.get_dpi()
             # ------------------------------- you have to play with this size to reduce the movement error when the mouse hovers over the figure, it's close to canvas size
             extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
-            extractedfig.extracted_artist_list[0][0].set_color(hex_code)
+            extractedfig.extracted_artist_list[splot][art].set_color(hex_code)
             # -------------------------------
             #x = np.linspace(0, 2 * np.pi)
             #y = np.sin(x)
