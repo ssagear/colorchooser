@@ -20,23 +20,32 @@ def run_GUI(fig):
     """
 
     extractedfig = efc.ExtractedFigure(fig=fig)
-    
+
+    ## Temp: taking out extra artist element ##
+    temparr = np.delete(extractedfig.plotted_artists_labels[0], 3)
+    extractedfig.plotted_artists_labels[0] = temparr
+    print(extractedfig.plotted_artists_labels)
+
+    temparr = np.delete(extractedfig.extracted_artist_list[0], 3)
+    extractedfig.extracted_artist_list[0] = temparr
+    print(extractedfig.extracted_artist_list)
+    ## Temp: taking out extra artist element ##
+
     subplots = []
     subplots_ints = []
-    artists = []
-    artists_ints = []
+    artists = np.empty(np.array(extractedfig.plotted_artists_labels).shape, dtype=np.dtype('U100'))
 
     for i in range(len(extractedfig.extracted_artist_list)):
         subplots.append('Subplot ' + str(i))
         subplots_ints.append(i)
         for j in range(len(extractedfig.extracted_artist_list[i])):
-            artists.append('Artist ' + str(j))
-            artists_ints.append(j)
+            if extractedfig.plotted_artists_labels[i][j][0] == '_':
+                artists[i][j] = 'Subplot ' + str(i) + '; Artist ' + str(j)
+            else:
+                artists[i][j] =  'Subplot ' + str(i) + '; ' + extractedfig.plotted_artists_labels[i][j]
 
     subplots = np.array(subplots)
     artists= np.array(artists)
-
-    print(subplots)
 
     
     line_type = ['solid', 'dotted', 'dashed', 'dashdot']
@@ -48,21 +57,15 @@ def run_GUI(fig):
     [sg.Canvas(key='controls_cv')],
     [sg.T('Figure:')],
     [sg.Column(
-        layout=[
-            [sg.Canvas(key='fig_cv',
-                       # it's important that you set this size
-                       size=(400 * 2, 400)
-                       )]
-        ],
+        layout=[[sg.Canvas(key='fig_cv', size=(400 * 2, 400))]],
         background_color='#DAE0E6',
         pad=(0, 0)
     )],
     [sg.In(key='color')],
     [sg.ColorChooserButton(button_text='Choose Color', target='color')],
-    [sg.Listbox(values=list(subplots), select_mode='extended', key='subplt', size=(30, 6))],
-    [sg.Listbox(values=list(artists), select_mode='extended', key='artst', size=(30, 6))],
+    [sg.Listbox(values=list(artists.flatten()), select_mode='extended', key='artst', size=(30, 6))],
     [sg.T('Choose line:  '), sg.Slider(orientation ='horizontal', key='lineSlider', range=(0,3))]
-]
+    ]
 
     window = sg.Window('Graph with controls', layout, finalize=True)
     draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
@@ -70,36 +73,23 @@ def run_GUI(fig):
     while True:
         event, values = window.read()
 
-        print(values['subplt'][-1][-1])
-        splot = int(values['subplt'][-1][-1])
-        art = int(values['artst'][-1][-1])
+        indices = np.where(artists == values['artst'])
+        splot = int(indices[0])
+        art = int(indices[1])
         hex_code = values['color']
 
         line_index_float = values['lineSlider']
         line_index = int(line_index_float)
 
-        print(event, values)
-
-
         if event in (sg.WIN_CLOSED, 'Exit'): 
             break
 
-        elif event is 'Plot':
-            # ------------------------------- PASTE YOUR MATPLOTLIB CODE HERE
-            #plt.figure(1)
-            #fig = plt.gcf()
-            print(splot, art)
+        elif event == 'Plot':
+            #print(splot, art)
             DPI = extractedfig.extracted_figure.get_dpi()
-            # ------------------------------- you have to play with this size to reduce the movement error when the mouse hovers over the figure, it's close to canvas size
             extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
             extractedfig.extracted_artist_list[splot][art].set_color(hex_code)
-            # -------------------------------
-            #x = np.linspace(0, 2 * np.pi)
-            #y = np.sin(x)
-            #plt.clf()
-            #plt.plot(x, y, color=hex_code, linestyle=line_type[line_index])
 
-            # ------------------------------- Instead of plt.show()
             draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
 
     window.close()
@@ -109,7 +99,6 @@ def run_GUI(fig):
 class Toolbar(NavigationToolbar2Tk):
    def __init__(self, *args, **kwargs):
        super(Toolbar, self).__init__(*args, **kwargs)
-
 
 def draw_figure_w_toolbar(canvas, fig, canvas_toolbar):
     if canvas.children:
