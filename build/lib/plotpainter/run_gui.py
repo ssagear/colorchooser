@@ -1,8 +1,7 @@
 from re import sub
 import numpy as np
 import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from plotpainter import extracted_figure_class as efc
@@ -25,6 +24,16 @@ def run_GUI(fig):
 
     extractedfig = efc.ExtractedFigure(fig=fig)
 
+    ## Temp: taking out extra artist element from histogram
+    # temparr = np.delete(extractedfig.plotted_artists_labels[0], 3)
+    # extractedfig.plotted_artists_labels[0] = temparr
+    # print(extractedfig.plotted_artists_labels)
+
+    # temparr = np.delete(extractedfig.extracted_artist_list[0], 3)
+    # extractedfig.extracted_artist_list[0] = temparr
+    # print(extractedfig.extracted_artist_list)
+    ## Temp: taking out extra artist element from histogram
+
     subplots = []
     subplots_ints = []
     artists = np.empty(np.array(extractedfig.plotted_artists_labels).shape, dtype=np.dtype('U100'))
@@ -34,9 +43,9 @@ def run_GUI(fig):
         subplots_ints.append(i)
         for j in range(len(extractedfig.extracted_artist_list[i])):
             if extractedfig.plotted_artists_labels[i][j][0] == '_':
-                artists[i][j] = 'Subplot ' + str(i) + '; Artist ' + str(j) + '; Type ' + str(extractedfig.plotted_artists_types[i][j][0]) + '; Original Color ' + str(extractedfig.plotted_artists_colors[i][j])
+                artists[i][j] = 'Subplot ' + str(i) + '; Artist ' + str(j)
             else:
-                artists[i][j] =  'Subplot ' + str(i) + '; ' + extractedfig.plotted_artists_labels[i][j] + '; Type ' + str(extractedfig.plotted_artists_types[i][j][0]) + '; Original Color ' + str(extractedfig.plotted_artists_colors[i][j])
+                artists[i][j] =  'Subplot ' + str(i) + '; ' + extractedfig.plotted_artists_labels[i][j]
 
     subplots = np.array(subplots)
     artists= np.array(artists)
@@ -55,7 +64,8 @@ def run_GUI(fig):
         background_color='#DAE0E6',
         pad=(0, 0)
     )],
-    [sg.In(key='color', enable_events=True, visible=False), sg.ColorChooserButton(button_text='Choose Color', target='color')],
+    [sg.In(key='color')],
+    [sg.ColorChooserButton(button_text='Choose Color', target='color')],
     [sg.Listbox(values=list(artists.flatten()), select_mode='extended', key='artst', size=(30, 6))],
     [sg.T('Choose line:  '), sg.Slider(orientation ='horizontal', key='lineSlider', range=(0,3))]
     ]
@@ -82,7 +92,7 @@ def run_GUI(fig):
         if event in (sg.WIN_CLOSED, 'Exit'): 
             break
 
-        elif event in ('lineSlider', 'color', 'Plot'):
+        elif event == 'Plot':
             try:
                 DPI = extractedfig.extracted_figure.get_dpi()
                 extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))

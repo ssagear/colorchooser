@@ -1,6 +1,5 @@
+import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
 import numpy as np
 #import pdb
 from matplotlib.collections import (

@@ -17,6 +17,8 @@ sys.path.insert(0, os.path.abspath('./../'))
 
 import plotpainter
 
+import plotpainter
+
 
 # -- Project information -----------------------------------------------------
 
