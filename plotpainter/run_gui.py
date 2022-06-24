@@ -33,9 +33,9 @@ def run_GUI(fig):
         subplots_ints.append(i)
         for j in range(len(extractedfig.extracted_artist_list[i])):
             if extractedfig.plotted_artists_labels[i][j][0] == '_':
-                artists[i][j] = 'Subplot ' + str(i) + '; Artist ' + str(j)
+                artists[i][j] = 'Subplot ' + str(i) + '; Artist ' + str(j) + '; Type ' + str(extractedfig.plotted_artists_types[i][j][0]) + '; Original Color ' + str(extractedfig.plotted_artists_colors[i][j])
             else:
-                artists[i][j] =  'Subplot ' + str(i) + '; ' + extractedfig.plotted_artists_labels[i][j]
+                artists[i][j] =  'Subplot ' + str(i) + '; ' + extractedfig.plotted_artists_labels[i][j] + '; Type ' + str(extractedfig.plotted_artists_types[i][j][0]) + '; Original Color ' + str(extractedfig.plotted_artists_colors[i][j])
 
     subplots = np.array(subplots)
     artists= np.array(artists)
