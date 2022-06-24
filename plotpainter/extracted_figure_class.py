@@ -17,12 +17,13 @@ class ExtractedArtist(object):
     Extracted matplotlib artist or container of artists.
     """
     
-    def __init__(self, artist, axessubplot, color, label):
+    def __init__(self, artist, axessubplot, color, label, art_type):
         
         self.artist = artist
         self.subplot = axessubplot
         self.color = color
         self.label = label
+        self.art_type = art_type
         
     def set_color(self, newcolor):
         
@@ -99,6 +100,9 @@ class ExtractedFigure(object):
         # Retrieve the artist colors (all artists assumed to be the same
         # color)
         self.retrieve_colors_from_artists()
+
+        # Retrieve the artist types
+        self.retrieve_types_from_artists()
         
         # Create the array of Extracted Artists
         self.create_extracted_artist_list()
@@ -182,6 +186,49 @@ class ExtractedFigure(object):
             plotted_artists_labels.append(np.array(curr_plotted_artists_labels))
             
         self.plotted_artists_labels = plotted_artists_labels
+
+
+    def retrieve_types_from_artists(self):
+        """
+        Retieve the type for an artist or container of artists.
+        
+        """
+        
+        plotted_artists_types = []
+        
+        for ax_ind in np.arange(len(self.axes_array)):
+            plotted_artists_types_curr = []
+            for ind in np.arange(len(self.plotted_artists[ax_ind])):
+                
+                # Current artist in list
+                artist = self.plotted_artists[ax_ind][ind]
+                
+                # Retrieve color from Line2Ds
+                if isinstance(artist, Line2D):
+                    plotted_artists_types_curr.append(['line'])
+                    
+                # Retrieve facecolor from Patches
+                elif isinstance(artist, Patch):
+                    plotted_artists_types_curr.append(['patch'])
+                    
+                # Retrieve type from Collections
+                elif isinstance(artist, Collection):
+                    plotted_artists_types_curr.append(['collection'])
+                
+                # Retrieve type from BarContainer
+                elif isinstance(artist, BarContainer):
+                    plotted_artists_types_curr.append(['bar_plot'])
+                    
+                # Retrieve type from ErrorbarContainer
+                elif isinstance(artist, ErrorbarContainer):
+                    plotted_artists_types_curr.append(['errorbar_plot'])
+                    
+                else:
+                    print('Plotted artist class not supported.')
+                    
+            plotted_artists_types.append(plotted_artists_types_curr)
+            
+        self.plotted_artists_types = plotted_artists_types
         
 
     def retrieve_colors_from_artists(self):
@@ -260,7 +307,8 @@ class ExtractedFigure(object):
                 extracted_artist = ExtractedArtist(artist = artist_list[art_ind],
                                                    axessubplot = self.axes_array[ax_ind],
                                                    color = self.plotted_artists_colors[ax_ind][art_ind],
-                                                   label = self.plotted_artists_labels[ax_ind][art_ind])
+                                                   label = self.plotted_artists_labels[ax_ind][art_ind],
+                                                   art_type = self.plotted_artists_types[ax_ind][art_ind])
                 
                 # Add to list
                 extracted_artist_list_curr.append(extracted_artist)
