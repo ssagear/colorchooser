@@ -68,8 +68,7 @@ def run_GUI(fig):
         background_color='#DAE0E6',
         pad=(0, 0)
     )],
-    [sg.In(key='color')],
-    [sg.ColorChooserButton(button_text='Choose Color', target='color')],
+    [sg.In(key='color', enable_events=True, visible=False), sg.ColorChooserButton(button_text='Choose Color', target='color')],
     [sg.Listbox(values=list(artists.flatten()), select_mode='extended', key='artst', size=(30, 6))],
     [sg.T('Choose line:  '), sg.Slider(orientation ='horizontal', key='lineSlider', range=(0,3))]
     ]
@@ -100,11 +99,8 @@ def run_GUI(fig):
 
         if event == sg.WIN_CLOSED: 
             break
-
-        elif event == 'Exit':
-            break
-            
-        elif event == 'Plot':
+        
+        elif event in ('lineSlider', 'color', 'Plot'):
             try:
                 DPI = extractedfig.extracted_figure.get_dpi()
                 extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
