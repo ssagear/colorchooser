@@ -1,7 +1,8 @@
 from re import sub
 import numpy as np
 import matplotlib
-import matplotlib.pyplot as plt
+matplotlib.use("TkAgg")
+from matplotlib import pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from plotpainter import extracted_figure_class as efc
