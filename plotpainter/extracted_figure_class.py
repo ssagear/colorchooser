@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-import pdb
+#import pdb
 from matplotlib.collections import (
     Collection, CircleCollection, LineCollection, PathCollection,
     PolyCollection, RegularPolyCollection)
