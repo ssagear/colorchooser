@@ -17,6 +17,13 @@ plotpainter is a GUI app that makes it easy to pass in a matplotlib Figure objec
    run_gui
 
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Tutorials
+
+   tutorials/tutorial
+
+
 Indices and tables
 ==================
 
