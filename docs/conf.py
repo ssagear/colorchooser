@@ -14,6 +14,8 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('../plotpainter/'))
 
+import plotpainter
+
 
 # -- Project information -----------------------------------------------------
 
