@@ -1,9 +1,13 @@
-.. _colorchooser:
 
-Colorchooser Functions
+
+.. _extracted_figure_class:
+
+Extract Feature
 =====================
 
-Function to perform color choosing.
+Extracts features from already plotted figure.
 
 .. automodule:: extracted_figure_class
    :members:
+
+

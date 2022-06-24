@@ -12,19 +12,18 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../extracted_figure_class/'))
-sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../plotpainter/'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'colorchooser'
-copyright = '2022, Us'
-author = 'Us'
+project = 'plotpainter'
+copyright = '2022, Sheila, Rebecca, RileyAnne'
+author = 'Sheila, Rebecca, RileyAnne'
 root_doc = 'index'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0.0'
+release = '0.0.0'
 
 
 # -- General configuration ---------------------------------------------------
