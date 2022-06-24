@@ -3,7 +3,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
-from plot-painter import extracted_figure_class as efc
+from plotpainter import extracted_figure_class as efc
 import PySimpleGUI as sg
 
 def run_GUI(fig):
