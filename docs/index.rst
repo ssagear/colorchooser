@@ -6,6 +6,9 @@
 Welcome to plotpainter's documentation!
 =======================================
 
+plotpainter is a GUI app that makes it easy to pass in a matplotlib Figure object and change the colors of each plotted dataset, without creating the figure again.
+
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
