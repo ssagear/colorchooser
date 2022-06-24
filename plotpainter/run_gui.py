@@ -77,7 +77,7 @@ def run_GUI(fig):
 
     window = sg.Window('Graph with controls', layout, finalize=True)
     draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
-    pdb.set_trace()
+    read = True
     while read:
 
         try:
