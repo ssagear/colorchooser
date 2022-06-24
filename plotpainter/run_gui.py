@@ -7,6 +7,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolb
 from plotpainter import extracted_figure_class as efc
 import PySimpleGUI as sg
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 def run_GUI(fig):
     """Runs GUI
 
@@ -21,15 +24,15 @@ def run_GUI(fig):
 
     extractedfig = efc.ExtractedFigure(fig=fig)
 
-    ## Temp: taking out extra artist element ##
-    temparr = np.delete(extractedfig.plotted_artists_labels[0], 3)
-    extractedfig.plotted_artists_labels[0] = temparr
-    print(extractedfig.plotted_artists_labels)
+    ## Temp: taking out extra artist element from histogram
+    # temparr = np.delete(extractedfig.plotted_artists_labels[0], 3)
+    # extractedfig.plotted_artists_labels[0] = temparr
+    # print(extractedfig.plotted_artists_labels)
 
-    temparr = np.delete(extractedfig.extracted_artist_list[0], 3)
-    extractedfig.extracted_artist_list[0] = temparr
-    print(extractedfig.extracted_artist_list)
-    ## Temp: taking out extra artist element ##
+    # temparr = np.delete(extractedfig.extracted_artist_list[0], 3)
+    # extractedfig.extracted_artist_list[0] = temparr
+    # print(extractedfig.extracted_artist_list)
+    ## Temp: taking out extra artist element from histogram
 
     subplots = []
     subplots_ints = []
@@ -71,26 +74,32 @@ def run_GUI(fig):
     draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
 
     while True:
-        event, values = window.read()
 
-        indices = np.where(artists == values['artst'])
-        splot = int(indices[0])
-        art = int(indices[1])
-        hex_code = values['color']
+        try:
+            event, values = window.read()
+            indices = np.where(artists == values['artst'])
+            splot = int(indices[0])
+            art = int(indices[1])
+            hex_code = values['color']
 
-        line_index_float = values['lineSlider']
-        line_index = int(line_index_float)
+            line_index_float = values['lineSlider']
+            line_index = int(line_index_float)
 
+        except TypeError:
+            continue
+
+        # Commenting exit/break out because the program crashes if you click exit :(
         if event in (sg.WIN_CLOSED, 'Exit'): 
             break
 
         elif event == 'Plot':
-            #print(splot, art)
-            DPI = extractedfig.extracted_figure.get_dpi()
-            extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
-            extractedfig.extracted_artist_list[splot][art].set_color(hex_code)
-
-            draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
+            try:
+                DPI = extractedfig.extracted_figure.get_dpi()
+                extractedfig.extracted_figure.set_size_inches(404 * 2 / float(DPI), 404 / float(DPI))
+                extractedfig.extracted_artist_list[splot][art].set_color(hex_code)
+                draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
+            except ValueError:
+                draw_figure_w_toolbar(window['fig_cv'].TKCanvas, extractedfig.extracted_figure, window['controls_cv'].TKCanvas)
 
     window.close()
 
