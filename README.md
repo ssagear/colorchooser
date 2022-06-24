@@ -1,3 +1,7 @@
 # plotpainter
 
-This GUI app allows you to change the colors of your matplotlib plots only using a matplotlib Figure object.
+plotpainter is a GUI app to change the color of your Matplotlib plots, dataset by dataset.
+
+The documentation for plotpainter is hosted at https://plotpainter.readthedocs.io/en/latest/.
+
+See the tutorial at exploratory/tutorial.ipynb.

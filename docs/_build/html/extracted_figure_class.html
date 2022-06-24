@@ -13,6 +13,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,6 +42,10 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Extract Feature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="run_gui.html">Run GUI</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/tutorial.html">plotpainter Tutorial</a></li>
+</ul>
 
         </div>
       </div>
@@ -66,42 +71,48 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="extract-feature">
-<span id="extracted-figure-class"></span><h1>Extract Feature<a class="headerlink" href="#extract-feature" title="Permalink to this headline"></a></h1>
+  <div class="section" id="module-plotpainter">
+<span id="extract-feature"></span><span id="extracted-figure-class"></span><h1>Extract Feature<a class="headerlink" href="#module-plotpainter" title="Permalink to this heading"></a></h1>
 <p>Extracts features from already plotted figure.</p>
-<span class="target" id="module-extracted_figure_class"></span><dl class="py class">
-<dt class="sig sig-object py" id="extracted_figure_class.ExtractedArtist">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">extracted_figure_class.</span></span><span class="sig-name descname"><span class="pre">ExtractedArtist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axessubplot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#extracted_figure_class.ExtractedArtist" title="Permalink to this definition"></a></dt>
+<span class="target" id="module-plotpainter.extracted_figure_class"></span><dl class="py class">
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedArtist">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plotpainter.extracted_figure_class.</span></span><span class="sig-name descname"><span class="pre">ExtractedArtist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axessubplot</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">art_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedArtist" title="Permalink to this definition"></a></dt>
 <dd><p>Extracted matplotlib artist or container of artists.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt class="sig sig-object py" id="extracted_figure_class.ExtractedFigure">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">extracted_figure_class.</span></span><span class="sig-name descname"><span class="pre">ExtractedFigure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#extracted_figure_class.ExtractedFigure" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedFigure">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">plotpainter.extracted_figure_class.</span></span><span class="sig-name descname"><span class="pre">ExtractedFigure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fig</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedFigure" title="Permalink to this definition"></a></dt>
 <dd><p>Extract the plotted Artists in the AxesSubplots of a Figure and
 enable the reconfiguration of the Artist attributes</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="extracted_figure_class.ExtractedFigure.retrieve_axes_artists">
-<span class="sig-name descname"><span class="pre">retrieve_axes_artists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#extracted_figure_class.ExtractedFigure.retrieve_axes_artists" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedFigure.retrieve_axes_artists">
+<span class="sig-name descname"><span class="pre">retrieve_axes_artists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedFigure.retrieve_axes_artists" title="Permalink to this definition"></a></dt>
 <dd><p>For all AxesSubplots in the Figure, retrieve the plotted artists,
 their labels, and current colors.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="extracted_figure_class.ExtractedFigure.retrieve_colors_from_artists">
-<span class="sig-name descname"><span class="pre">retrieve_colors_from_artists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#extracted_figure_class.ExtractedFigure.retrieve_colors_from_artists" title="Permalink to this definition"></a></dt>
-<dd><p>Retieve the color, or facecolor and edgecolor, for an artist or
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedFigure.retrieve_colors_from_artists">
+<span class="sig-name descname"><span class="pre">retrieve_colors_from_artists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedFigure.retrieve_colors_from_artists" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieve the color, or facecolor and edgecolor, for an artist or
 container of artists.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="extracted_figure_class.ExtractedFigure.retrieve_figure_subplots">
-<span class="sig-name descname"><span class="pre">retrieve_figure_subplots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#extracted_figure_class.ExtractedFigure.retrieve_figure_subplots" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedFigure.retrieve_figure_subplots">
+<span class="sig-name descname"><span class="pre">retrieve_figure_subplots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedFigure.retrieve_figure_subplots" title="Permalink to this definition"></a></dt>
 <dd><p>Extract the list of matplotlib AxesSubplots in the Figure</p>
 <dl class="simple">
 <dt>(Note: the datatype of the AxesSubplot will be</dt><dd><p>matplotlib.axes._subplots.AxesSubplot)</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="plotpainter.extracted_figure_class.ExtractedFigure.retrieve_types_from_artists">
+<span class="sig-name descname"><span class="pre">retrieve_types_from_artists</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#plotpainter.extracted_figure_class.ExtractedFigure.retrieve_types_from_artists" title="Permalink to this definition"></a></dt>
+<dd><p>Retieve the type for an artist or container of artists.</p>
 </dd></dl>
 
 </dd></dl>
