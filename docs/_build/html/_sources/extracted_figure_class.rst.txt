@@ -1,13 +1,10 @@
-
-
 .. _extracted_figure_class:
 
 Extract Feature
 =====================
+.. module:: plotpainter
 
 Extracts features from already plotted figure.
 
-.. automodule:: extracted_figure_class
+.. automodule:: plotpainter.extracted_figure_class
    :members:
-
-

@@ -10,8 +10,8 @@ Welcome to plotpainter's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   extracted_figure_class.rst
-   run_gui.rst
+   extracted_figure_class
+   run_gui
 
 
 Indices and tables
